@@ -1,0 +1,29 @@
+Daily
+  [ ] Review of system logs on a subset of systems - Even better, setup centralized syslog with kibana dashboards
+  [*] Monday: webs
+  [*] Tuesday: apps
+  [*] Wednesday: MQ, redis, db
+  [ ] Thursday: general (opsmon, CI, mgmgt)
+  [ ] Review nagios for silenced alerts
+
+Weekly
+  [ ] Check for version updates and security updates for major software components.
+  [ ] Apache
+  [ ] Nginx
+  [ ] RabbitMQ
+  [ ] Redis
+  [ ] HAproxy
+  [ ] Check rackspace portal for any open tickets
+  [ ] Perform a restore from a random host that is backed up by Amanda
+  [ ] Review OSSEC and ClamAV logs
+  [ ] Review nessus scans
+  [ ] Run / review serverspec tests eventually, the running should be automated via jenkins daily
+  [ ] Review open issues in all ops-related projects in GHE Ex. DNS, puppet, serverspec, opsdocs
+
+Monthly
+[ ] A member of the ops team should visit savvis for a review of hardware and networking
+
+[ ] Prior to scheduled maintenace, available updates should be reviewed and applied
+to QA for review
+
+[ ] GHE and Jenkins updates should be applied
