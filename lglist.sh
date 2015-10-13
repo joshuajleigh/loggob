@@ -1,24 +1,25 @@
 #setting ansible playbooks path
 apath=~/Repos/hubot-playbooks/inventory/ops
-rm /tmp/table /tmp/tableA /tmp/tableB
+rm /tmp/table* 
 
 #---------------------------------------------------------------------------------------------
 
 # gathers list of servers for given enviroment
 for i in $( ls $apath ); do
 	cat $apath/$i |
-	awk ' /^$/ { print; } /./ { printf("%s ", $0); }'|
-	grep "\[$1\]" |
-	sed "s/\[.\{2,\}\]/$i/g" >> /tmp/tableA;
+	grep '[a-z]\{2,3\}-.\{2,12\}' | grep -v "#" |sort | uniq -u | tr "\n" " " >> /tmp/table$i
 done
 
+for i in $( ls $apath ); do
+	cat /tmp/table$i | sed "s/^/$i /g" >> /tmp/tableA
+done
 # debug
 #echo "the list of servers closer to raw"
 #cat /tmp/tableA
 #---------------------------------------------------------------------------------------------
 # adding checkboxes
 cat /tmp/tableA | tr " " "\t" | sed 's|	| [x]|g'  >> /tmp/tableB
-
+# cat /tmp/tableB
 # removing unwanted trailing boxes
 cat /tmp/tableB | sed -e s/'.\{3\}$'// > /tmp/tableA
 
@@ -31,7 +32,7 @@ rows=0
 for i in $rowlen; do
 	((rows++))
 done
-#debug
+##debug
 #echo "the longest set of rows are $rowlen"
 #echo "for a total of $rows rows"
 
@@ -105,20 +106,16 @@ sed 's/^/|/' /tmp/tableB > /tmp/tableA
 
 s=$(printf "%-$((($maxcell * $col)+1))s" "=")
 
-echo "Server category: $1" >> /tmp/table
 echo "${s// /-}" >> /tmp/table
-echo "Logs reviewed: /var/log/messages  - /var/log/secure" >> /tmp/table
+echo "Full list of servers in environment" >> /tmp/table
 echo "${s// /=}" >> /tmp/table
 head -1 /tmp/tableA|expand >> /tmp/table
 echo "${s// /=}" >> /tmp/table
 tail -$(($rows -1)) /tmp/tableA >> /tmp/table
 echo "${s// /=}" >> /tmp/table
-echo "Key: x=OK	 !=issue	*=other see notes below" >> /tmp/table
-echo "" >> /tmp/table
-echo "" >> /tmp/table
 
 #echo table with header, etc
 logname=$(date +"%m-%d-%y")
-cat /tmp/table >> Report-$logname
+cat /tmp/table >> list-$logname
 
-echo "table entry has been created, see file Report-$logname"
+echo "table entry has been created, see list-$logname"
