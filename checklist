@@ -1,8 +1,8 @@
 Daily
   [ ] Review of system logs on a subset of systems - Even better, setup centralized syslog with kibana dashboards
-  [*] Monday: webs
-  [*] Tuesday: apps
-  [*] Wednesday: MQ, redis, db
+  [x] Monday: webs
+  [x] Tuesday: apps
+  [x] Wednesday: MQ, redis, db
   [ ] Thursday: general (opsmon, CI, mgmgt)
   [ ] Review nagios for silenced alerts
 
